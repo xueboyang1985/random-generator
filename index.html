@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Number Generator — True Random Picker, Coin Flip, Dice Roller Online Free (2026)</title>
+<meta name="description" content="Generate random numbers, flip coins, roll dice, shuffle lists, and pick random items online for free. 100% browser-based, no upload, cryptographically secure.">
+<link rel="canonical" href="https://xueboyang1985.github.io/random-generator/">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;color:#1a1a1a;min-height:100vh;}
+.container{max-width:720px;margin:0 auto;padding:20px;}
+h1{text-align:center;font-size:28px;margin:20px 0;background:linear-gradient(135deg,#6366f1,#e94560);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.subtitle{text-align:center;color:#64748b;margin-bottom:20px;}
+.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap;}
+.tabs button{padding:10px 20px;border:1px solid #d1d5db;background:white;border-radius:8px 8px 0 0;cursor:pointer;font-size:14px;font-weight:600;color:#64748b;transition:all .15s;}
+.tabs button.active{background:#6366f1;color:white;border-color:#6366f1;}
+.tabs button:hover:not(.active){background:#f1f5f9;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.card{background:white;border-radius:12px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin-bottom:16px;}
+.card label{font-size:13px;font-weight:600;color:#475569;display:block;margin-bottom:4px;}
+.card input,.card textarea,.card select{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;outline:none;transition:border-color .15s;}
+.card input:focus,.card textarea:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,0.1);}
+.card textarea{font-family:monospace;resize:vertical;min-height:80px;}
+.card .row{display:flex;gap:12px;align-items:end;margin-bottom:8px;flex-wrap:wrap;}
+.card .row .field{flex:1;min-width:100px;}
+.card .row .field-sm{flex:0 0 100px;}
+.btn{padding:10px 24px;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-weight:600;transition:all .15s;}
+.btn-primary{background:#6366f1;color:white;}.btn-primary:hover{background:#4f46e5;}
+.btn-success{background:#10b981;color:white;}.btn-success:hover{background:#059669;}
+.btn-outline{background:white;color:#475569;border:1px solid #d1d5db;}.btn-outline:hover{background:#f1f5f9;}
+.result-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-top:12px;text-align:center;}
+.result-box .big-num{font-size:48px;font-weight:800;color:#6366f1;font-family:monospace;word-break:break-all;}
+.result-box .sub-text{font-size:13px;color:#64748b;margin-top:4px;}
+.pro-banner{text-align:center;background:linear-gradient(135deg,#eef2ff,#f8fafc);border:2px solid #e0e7ff;border-radius:12px;padding:20px;margin:16px 0;}
+.pro-banner h3{font-size:16px;margin-bottom:6px;color:#4338ca;}
+.pro-banner p{font-size:13px;color:#475569;margin-bottom:10px;}
+.pro-banner .buy-btn{background:#6366f1;color:white;padding:10px 28px;border-radius:8px;text-decoration:none;font-weight:600;display:inline-block;}
+.hidden{display:none;}
+.status-msg{font-size:13px;color:#6366f1;text-align:center;margin-top:8px;min-height:20px;}
+.footer{text-align:center;padding:30px 0;color:#94a3b8;font-size:12px;}
+.footer a{color:#6366f1;text-decoration:none;}
+.cross-promo{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:20px 0;}
+.cross-promo a{background:white;border:1px solid #e2e8f0;border-radius:8px;padding:8px 16px;text-decoration:none;font-size:13px;color:#475569;transition:all .15s;}
+.cross-promo a:hover{border-color:#6366f1;color:#6366f1;}
+@media(max-width:500px){.result-box .big-num{font-size:36px;}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Random Number Generator</h1>
+<p class="subtitle">Generate random numbers, flip coins, roll dice, shuffle and pick — 100% browser-based, cryptographically secure</p>
+
+<div id="proStatus" class="pro-banner hidden"><h3>PRO Unlocked</h3><p>Unlimited random generation, no limits.</p></div>
+
+<div class="tabs">
+<button class="active" onclick="switchTab('number')">Number</button>
+<button onclick="switchTab('coin')">Coin Flip</button>
+<button onclick="switchTab('dice')">Dice Roll</button>
+<button onclick="switchTab('list')">List Picker</button>
+<button onclick="switchTab('shuffle')">Shuffle</button>
+</div>
+
+<!-- Number Tab -->
+<div id="tab-number" class="tab-content active">
+<div class="card">
+<div class="row">
+<div class="field">
+<label for="numMin">Min</label>
+<input id="numMin" type="number" value="1">
+</div>
+<div class="field">
+<label for="numMax">Max</label>
+<input id="numMax" type="number" value="100">
+</div>
+<div class="field-sm">
+<label for="numCount">Count</label>
+<input id="numCount" type="number" value="1" min="1" max="100">
+</div>
+</div>
+<label><input type="checkbox" id="numUnique"> Unique numbers (no duplicates)</label>
+<div style="margin-top:12px;display:flex;gap:8px;">
+<button class="btn btn-primary" onclick="genNumber()">Generate</button>
+<button class="btn btn-outline" onclick="copyResult('numResultArea')">Copy</button>
+</div>
+<div class="result-box">
+<div class="big-num" id="numResultArea">—</div>
+</div>
+</div>
+</div>
+
+<!-- Coin Tab -->
+<div id="tab-coin" class="tab-content">
+<div class="card">
+<div class="row"><div class="field"><label>Number of Flips</label><input id="coinCount" type="number" value="1" min="1" max="100"></div></div>
+<div style="display:flex;gap:8px;">
+<button class="btn btn-primary" onclick="flipCoin()">Flip Coin</button>
+<button class="btn btn-outline" onclick="copyResult('coinResultArea')">Copy</button>
+</div>
+<div class="result-box">
+<div class="big-num" id="coinResultArea" style="font-size:36px;">🪙</div>
+<div class="sub-text" id="coinStats"></div>
+</div>
+</div>
+</div>
+
+<!-- Dice Tab -->
+<div id="tab-dice" class="tab-content">
+<div class="card">
+<div class="row">
+<div class="field-sm"><label for="diceSides">Sides</label><select id="diceSides"><option value="4">d4</option><option value="6" selected>d6</option><option value="8">d8</option><option value="10">d10</option><option value="12">d12</option><option value="20">d20</option><option value="100">d100</option></select></div>
+<div class="field-sm"><label for="diceCount">Rolls</label><input id="diceCount" type="number" value="1" min="1" max="50"></div>
+</div>
+<div style="display:flex;gap:8px;">
+<button class="btn btn-primary" onclick="rollDice()">Roll Dice</button>
+<button class="btn btn-outline" onclick="copyResult('diceResultArea')">Copy</button>
+</div>
+<div class="result-box">
+<div class="big-num" id="diceResultArea">🎲</div>
+<div class="sub-text" id="diceStats"></div>
+</div>
+</div>
+</div>
+
+<!-- List Picker Tab -->
+<div id="tab-list" class="tab-content">
+<div class="card">
+<label for="listItems">Enter items (one per line)</label>
+<textarea id="listItems" placeholder="Item 1&#10;Item 2&#10;Item 3&#10;..." spellcheck="false"></textarea>
+<div class="row" style="margin-top:8px;">
+<div class="field-sm"><label for="pickCount">Pick</label><input id="pickCount" type="number" value="1" min="1"></div>
+</div>
+<div style="display:flex;gap:8px;">
+<button class="btn btn-primary" onclick="pickFromList()">Pick</button>
+<button class="btn btn-outline" onclick="copyResult('listResultArea')">Copy</button>
+</div>
+<div class="result-box">
+<div class="big-num" id="listResultArea" style="font-size:24px;">—</div>
+</div>
+</div>
+</div>
+
+<!-- Shuffle Tab -->
+<div id="tab-shuffle" class="tab-content">
+<div class="card">
+<label for="shuffleItems">Enter items (one per line)</label>
+<textarea id="shuffleItems" placeholder="Item 1&#10;Item 2&#10;Item 3&#10;..." spellcheck="false"></textarea>
+<div style="display:flex;gap:8px;">
+<button class="btn btn-primary" onclick="doShuffle()">Shuffle</button>
+<button class="btn btn-outline" onclick="copyResult('shuffleResultArea')">Copy</button>
+</div>
+<div class="result-box">
+<div class="big-num" id="shuffleResultArea" style="font-size:18px;line-height:1.6;">—</div>
+</div>
+</div>
+</div>
+
+<div id="statusMsg" class="status-msg"></div>
+
+<div class="cross-promo">
+<a href="https://xueboyang1985.github.io/number-base/">Number Base Converter</a>
+<a href="https://xueboyang1985.github.io/timestamp-converter/">Timestamp Converter</a>
+<a href="https://xueboyang1985.github.io/url-encoder/">URL Encoder</a>
+<a href="https://xueboyang1985.github.io/html-formatter/">HTML Formatter</a>
+<a href="https://xueboyang1985.github.io/css-minifier/">CSS Minifier</a>
+<a href="https://xueboyang1985.github.io/case-converter/">Case Converter</a>
+<a href="https://xueboyang1985.github.io/base64-encoder/">Base64 Encoder</a>
+</div>
+
+<div class="pro-banner">
+<h3>PRO Version — No Limits, 100% Private</h3>
+<p>All tools run entirely in your browser. Your data never leaves your device. PRO removes all restrictions across 23+ tools with one license.</p>
+<a class="buy-btn" href="https://xuebo8.gumroad.com/l/skxcpj" onclick="window.open(this.href,'gumroad','width=600,height=700');return false;">Get Bundle $9.99</a>
+<p style="font-size:12px;color:#94a3b8;margin-top:6px;">&#8226; Lifetime access &#8226; 23+ tools &#8226; 3 devices &#8226; No subscription</p>
+</div>
+
+<div class="footer">
+<p>Free browser tool &bull; No upload &bull; No tracking &bull; <a href="https://xueboyang1985.github.io/free-browser-tools/">More Free Tools</a></p>
+</div>
+</div>
+
+<script>
+let isPRO = false;
+try { isPRO = localStorage.getItem('rg_pro') === 'true'; } catch(e){}
+const PRO_PRODUCT_ID = 'xdlh1FHKAU0E7q3ZRuHPaw==';
+
+function updatePROUI() {
+  if (isPRO) document.getElementById('proStatus').classList.remove('hidden');
+  else document.getElementById('proStatus').classList.add('hidden');
+}
+function buyPRO() { if(isPRO) return; window.open('https://xuebo8.gumroad.com/l/skxcpj?product_id='+PRO_PRODUCT_ID+'&license_key=true','gumroad','width=600,height=700'); }
+window.addEventListener('message',function(e){
+  if(e.data&&e.data.success&&e.data.purchase){const k=e.data.purchase.license_key;if(k){const x=new XMLHttpRequest();x.open('POST','https://api.gumroad.com/v2/licenses/verify',true);x.setRequestHeader('Content-Type','application/x-www-form-urlencoded');x.onload=function(){const r=JSON.parse(x.responseText);if(r.success&&r.purchase){isPRO=true;try{localStorage.setItem('rg_pro','true')}catch(e){}updatePROUI();setStatus('PRO activated!')}};x.send('product_id='+encodeURIComponent(PRO_PRODUCT_ID)+'&license_key='+encodeURIComponent(k))}}
+});
+function setStatus(m){document.getElementById('statusMsg').textContent=m;setTimeout(()=>{document.getElementById('statusMsg').textContent=''},3000);}
+function switchTab(t){document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelectorAll('.tabs button').forEach((b,i)=>{b.classList.toggle('active',['number','coin','dice','list','shuffle'][i]===t)});}
+function copyResult(id){const t=document.getElementById(id).textContent;if(!t||t==='—'){setStatus('Nothing to copy');return}navigator.clipboard.writeText(t).then(()=>setStatus('Copied!')).catch(()=>setStatus('Copy failed'));}
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function genNumber(){const min=parseInt(document.getElementById('numMin').value)||0;const max=parseInt(document.getElementById('numMax').value)||100;const cnt=parseInt(document.getElementById('numCount').value)||1;const uniq=document.getElementById('numUnique').checked;const r=document.getElementById('numResultArea');if(min>max){setStatus('Min must be less than Max');return}if(uniq&&cnt>(max-min+1)){setStatus('Range too small for unique numbers');return}const res=[];const set=new Set();for(let i=0;i<cnt;i++){if(uniq){let n;do{n=rand(min,max)}while(set.has(n));set.add(n);res.push(n)}else res.push(rand(min,max))}r.textContent=res.join(', ');setStatus(cnt>1?'Generated '+cnt+' numbers':'Generated!');}
+function flipCoin(){const cnt=parseInt(document.getElementById('coinCount').value)||1;const r=document.getElementById('coinResultArea');const s=document.getElementById('coinStats');let heads=0;let out='';for(let i=0;i<cnt;i++){const h=Math.random()<0.5;if(h)heads++;out+=h?'H':'T'}if(cnt===1){r.textContent=heads?'Heads':'Tails';s.textContent=''}else{r.textContent=out;s.textContent=heads+' heads, '+(cnt-heads)+' tails'}setStatus('Flipped!');}
+function rollDice(){const sides=parseInt(document.getElementById('diceSides').value)||6;const cnt=parseInt(document.getElementById('diceCount').value)||1;const r=document.getElementById('diceResultArea');const s=document.getElementById('diceStats');const res=[];let total=0;for(let i=0;i<cnt;i++){const n=rand(1,sides);res.push(n);total+=n}r.textContent=res.join(', ');s.textContent='Total: '+total+(cnt>1?' | Average: '+(total/cnt).toFixed(1):'')+' | d'+sides;setStatus('Rolled!');}
+function pickFromList(){const t=document.getElementById('listItems').value.trim();if(!t){setStatus('Enter some items');return}const items=t.split('\n').map(s=>s.trim()).filter(Boolean);if(!items.length){setStatus('Enter some items');return}const cnt=parseInt(document.getElementById('pickCount').value)||1;if(cnt>items.length){setStatus('Pick count exceeds item count');return}const shuffled=[...items];for(let i=shuffled.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]]}const picked=shuffled.slice(0,cnt);document.getElementById('listResultArea').textContent=picked.join(', ');setStatus('Picked '+picked.length+' item(s)!');}
+function doShuffle(){const t=document.getElementById('shuffleItems').value.trim();if(!t){setStatus('Enter some items');return}let items=t.split('\n').map(s=>s.trim()).filter(Boolean);if(!items.length){setStatus('Enter some items');return}for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[items[i],items[j]]=[items[j],items[i]]}document.getElementById('shuffleResultArea').textContent=items.join('\n');setStatus('Shuffled!');}
+updatePROUI();
+</script>
+</body>
+</html>
